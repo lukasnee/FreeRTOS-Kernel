@@ -494,10 +494,16 @@ PRIVILEGED_DATA static UBaseType_t uxTaskNumber = ( UBaseType_t ) 0U;
 PRIVILEGED_DATA static volatile TickType_t xNextTaskUnblockTime = ( TickType_t ) 0U; /* Initialised to portMAX_DELAY before the scheduler starts. */
 PRIVILEGED_DATA static TaskHandle_t xIdleTaskHandles[ configNUMBER_OF_CORES ];       /**< Holds the handles of the idle tasks.  The idle tasks are created automatically when the scheduler is started. */
 
+#ifdef __GNUC__
+#define USED __attribute__((used))
+#else
+#define USED
+#endif
+ 
 /* Improve support for OpenOCD. The kernel tracks Ready tasks via priority lists.
  * For tracking the state of remote threads, OpenOCD uses uxTopUsedPriority
  * to determine the number of priority lists to read back from the remote target. */
-static const volatile UBaseType_t uxTopUsedPriority = configMAX_PRIORITIES - 1U;
+static const volatile UBaseType_t USED uxTopUsedPriority = configMAX_PRIORITIES - 1U;
 
 /* Context switches are held pending while the scheduler is suspended.  Also,
  * interrupts must not manipulate the xStateListItem of a TCB, or any of the

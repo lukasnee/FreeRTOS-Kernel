@@ -248,7 +248,7 @@ target_sources(freertos_kernel PRIVATE
     queue.c
     stream_buffer.c
     tasks.c
-    timers.c
+    # timers.c
 )
 
 if (DEFINED FREERTOS_HEAP )
@@ -259,6 +259,9 @@ if (DEFINED FREERTOS_HEAP )
     )
 endif()
 
+target_link_options(freertos_kernel PUBLIC
+    -Wl,--undefined=uxTopUsedPriority
+)
 
 target_link_libraries(freertos_kernel
     PUBLIC
